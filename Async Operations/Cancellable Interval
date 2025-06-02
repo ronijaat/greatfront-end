@@ -1,0 +1,30 @@
+/**
+ * @param {Function} callback
+ * @param {number} delay
+ * @param {...any} args
+ * @returns {Function}
+ */
+export default function setCancellableInterval(callback, delay, ...args) {
+  const id = setInterval(callback,delay,...args);
+  return ()=> clearInterval(id);
+}
+
+Approach 2
+--------------------------
+/**
+ * @param {Function} callback
+ * @param {number} delay
+ * @param {...any} args
+ * @returns {Function}
+ */
+export default function setCancellableInterval(callback, delay, ...args) {
+  let isCancelled = false;
+  setInterval(()=>{
+    if(isCancelled) return;
+    callback(...args);
+  },delay);
+
+  return ()=>{
+    isCancelled = true;
+  }
+}
