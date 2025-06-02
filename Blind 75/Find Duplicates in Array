@@ -1,0 +1,12 @@
+/**
+ * @param {number[]} numbers
+ * @return {boolean}
+ */
+export default function findDuplicates(numbers) {
+  const mp = new Map();
+  for(let num of numbers){
+    if(mp.has(num)) return true;
+    mp.set(num,1);
+  }
+  return false;
+}
