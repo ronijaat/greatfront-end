@@ -1,0 +1,21 @@
+/**
+ * @param {string} str
+ * @return {boolean}
+ */
+export default function isBalancedBrackets(str) {
+  const stack = []
+  for(let c of str){
+    if(c==='(' || c==='{' || c==='['){
+      stack.push(c)
+    }else{
+      if(stack.length === 0) return false;
+      let len = stack.length;
+      if((c===')' && stack[len-1]==='(') || (c==='}' && stack[len-1]==='{') || (c===']' && stack[len-1]==='[')){
+        stack.pop();
+      }else{
+        return false;
+      }
+    }
+  }
+  return stack.length===0;
+}
