@@ -1,0 +1,11 @@
+Array.prototype.myMap = function (callbackFn, thisArg) {
+  let n = this.length;
+  let ans = new Array(n);
+  this.forEach((item,i)=>{
+    //returns true if it not has undefined
+    if(Object.hasOwn(this,i)){
+      ans[i] = callbackFn.call(thisArg,item,i,this);
+    }
+  })
+  return ans;
+};
