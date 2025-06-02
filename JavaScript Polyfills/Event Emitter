@@ -1,0 +1,52 @@
+export default class EventEmitter {
+  constructor() {
+    this.mp = new Map();
+  }
+
+  /**
+   * @param {string} eventName
+   * @param {Function} listener
+   * @returns {EventEmitter}
+   */
+  on(eventName, listener) {
+    if (!this.mp.has(eventName)) {
+      this.mp.set(eventName, []);
+    }
+    this.mp.get(eventName).push(listener);
+    return this;
+  }
+
+  /**
+   * @param {string} eventName
+   * @param {Function} listener
+   * @returns {EventEmitter}
+   */
+  off(eventName, listener) {
+    if (this.mp.has(eventName)) {
+      const listeners = this.mp.get(eventName);
+      const index = listeners.indexOf(listener);
+      if(index !== -1){
+        listeners.splice(index,1);
+        if(listeners.length === 0){
+          this.mp.delete(eventName);
+        }
+      }
+    }
+    return this;
+  }
+
+  /**
+   * @param {string} eventName
+   * @param  {...any} args
+   * @returns {boolean}
+   */
+  emit(eventName, ...args) {
+    if (this.mp.has(eventName)) {
+      for (const listener of this.mp.get(eventName)) {
+        listener(...args);
+      }
+      return true;
+    }
+    return false;
+  }
+}
