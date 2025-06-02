@@ -1,0 +1,18 @@
+export default function setCancellableTimeout(callback, delay, ...args) {
+  const id = setTimeout(callback,delay,...args);
+  return ()=> clearTimeout(id);
+}
+
+
+Approach 2
+--------------
+export default function setCancellableTimeout(callback, delay, ...args) {
+  let isAllowed = false;
+  setInterval(()=>{
+    if(isAllowed) return;
+    callback.apply(null,args);
+  },delay)
+  return ()=>{
+    isAllowed = true;
+  }
+}
