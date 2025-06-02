@@ -1,0 +1,24 @@
+Array.prototype.myFilter = function (callbackFn, thisArg) {
+  let ans = [];
+  this.forEach((item,i)=>{
+    if(callbackFn.call(thisArg,item,i,this)){
+      ans.push(item);
+    }
+  })
+  return ans;
+};
+
+
+
+
+const obj = {
+  threshold: 10,
+  isBig(n) {
+    return n > this.threshold;
+  }
+};
+
+const arr = [5, 15, 25];
+
+// Using filter with thisArg
+const result = arr.myFilter(obj.isBig, obj);
