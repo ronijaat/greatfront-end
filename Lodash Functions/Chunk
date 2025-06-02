@@ -1,0 +1,32 @@
+export default function chunk(array, size = 1) {
+  let arr = [];
+  let n = array.length;
+  for(let i=0;i<n;i+=size){
+    arr.push(array.slice(i,i+size));
+  }
+  return arr;
+}
+
+-------------------------------\
+/**
+ * @template T
+ * @param {Array<T>} array The array to process.
+ * @param {number} [size=1] The length of each chunk.
+ * @returns {Array<Array<T>>} The new array of chunks.
+ */
+export default function chunk(array, size = 1) {
+  let arr = [];
+  let i = 0;
+  let n = array.length;
+  while(i<n){
+    let temp = [];
+    let j = i;
+    while(j<n && j<(i+size)){
+      temp.push(array[j]);
+      j+=1;
+    }
+    arr.push(temp);
+    i+=size
+  }
+  return arr
+}
