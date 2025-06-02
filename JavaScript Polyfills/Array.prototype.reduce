@@ -1,0 +1,13 @@
+Array.prototype.myReduce = function (callbackFn, initialValue) {
+  if(initialValue === undefined && this.length === 0){
+    throw new TypeError('Reduce of empty array with no initial value');
+  }
+  let acc = initialValue === undefined ? this[0] : initialValue;
+  let startIdx = initialValue === undefined ? 1 : 0;
+  for(let k=startIdx;k<this.length;k++){
+    if(Object.hasOwn(this,k)){
+      acc = callbackFn(acc,this[k],k,this);
+    }
+  }
+  return acc
+};
