@@ -1,0 +1,11 @@
+Array.prototype.myConcat = function (...items) {
+  let newArr = [...this]
+  items.forEach((item)=>{
+    if(Array.isArray(item)){
+      newArr.push(...item)
+    }else{
+      newArr.push(item);
+    }
+  })
+  return newArr;
+};
