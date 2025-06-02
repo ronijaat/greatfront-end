@@ -1,0 +1,52 @@
+// You are free to use alternative approaches of
+// instantiating the EventEmitter as long as the
+// default export is correct.
+class EventHelper{
+  constructor(_listener){
+    this.listener = _listener
+    this.isAllowed = true;
+  }
+  off(){
+    this.isAllowed = false;
+  }
+};
+
+export default class EventEmitter {
+  constructor() {
+    this.mp = new Map();
+  }
+
+  /**
+   * @param {string} eventName
+   * @param {Function} listener
+   * @returns {{off: Function}}
+   */
+  on(eventName, listener) {
+    if(!this.mp.has(eventName)){
+      this.mp.set(eventName,[]);
+    }
+    let node = new EventHelper(listener);
+    this.mp.get(eventName).push(node);
+    return node;
+  }
+
+  /**
+   * @param {string} eventName
+   * @param {...any} args
+   * @returns boolean
+   */
+  emit(eventName, ...args) {
+    if(this.mp.has(eventName)){
+      let found = false;
+      const listeners = this.mp.get(eventName);
+      for(let events of listeners){
+        if(events.isAllowed){
+          found = true;
+          events.listener(...args);
+        }
+      }
+      return found === true;
+    }
+    return false;
+  }
+}
