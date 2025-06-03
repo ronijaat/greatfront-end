@@ -1,0 +1,15 @@
+/**
+ * @param {Function} func
+ * @param {number} wait
+ * @return {Function}
+ */
+export default function debounce(func, wait=0) {
+  let id = null;
+  return function(...args){
+    clearTimeout(id);
+    id = setTimeout(()=>{
+      id = null;
+      func.apply(this,args)
+    },wait)
+  }
+}
