@@ -1,0 +1,8 @@
+export default function countBy(array, iteratee) {
+  let mp = new Map();
+  array.forEach((ele)=>{
+    const key = iteratee(ele);
+    mp.set(key,(mp.get(key) || 0)+1);
+  });
+  return Object.fromEntries(mp);
+}
