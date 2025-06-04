@@ -2,7 +2,6 @@
  * @param number initialValue
  * @return Object
  */
-//for memoize callback: useCallback is good
 import {useState,useCallback} from 'react'
 
 
@@ -14,9 +13,11 @@ export default function useCounter(initialValue=0) {
   const decrement = useCallback(()=>{
     setCount((x)=> x - 1);
   },[])
+
   const reset = useCallback(()=>{
-    setCount(0);
+    setCount(initialValue)
   },[initialValue])
+
   return {
     count,
     increment,
