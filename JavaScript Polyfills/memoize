@@ -1,0 +1,10 @@
+function myMemoize(func, context) {
+  const res = {};
+  return function (...args) {
+    const key = JSON.stringify(args);
+    if (!res[key]) {
+      res[key] = func.call(context || this, ...args);
+    }
+    return res[key];
+  };
+}
