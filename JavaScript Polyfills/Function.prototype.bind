@@ -11,6 +11,15 @@ Function.prototype.myBind = function (thisArg, ...argArray) {
 };
 
 -------------------------------------
+easy of below one
+Function.prototype.myBind = function (thisArg, argArray=[]) {
+    thisArg.fn = this;
+    return function(){
+          return thisArg.fn(argArray)
+    }
+}
+
+------------------------------------
 
 Function.prototype.myBind = function (thisArg, ...argArray) {
   const sym = Symbol();
