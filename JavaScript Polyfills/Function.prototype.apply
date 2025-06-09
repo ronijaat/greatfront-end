@@ -15,6 +15,12 @@ Function.prototype.myApply = function (thisArg, argArray=[]) {
 };
 
 -----------------------------------------
+easy of below one
+Function.prototype.myApply = function (thisArg, argArray=[]) {
+    thisArg.fn = this;
+    thisArg.fn(argArray)
+}
+-----------------------------------------
 
 Function.prototype.myApply = function (thisArg, argArray=[]) {
   const sym = Symbol();
