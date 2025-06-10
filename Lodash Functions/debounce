@@ -1,0 +1,14 @@
+const myDebounce = (func, wait = 0) => {
+  let id;
+  return function (...args) {
+    clearTimeout(id);
+    id = setTimeout(() => {
+      id = null;
+      func(...args);
+    }, wait);
+  };
+};
+
+const debounceFunc = myDebounce(() => {
+  debounce.innerHTML = ++debounce_val;
+}, 800);
