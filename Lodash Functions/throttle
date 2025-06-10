@@ -1,0 +1,15 @@
+//calls in every wait time like here function calling rapidaly but calls in 800ms
+
+const myThrottle = (func, wait = 0) => {
+  let last = 0;
+  return function (...args) {
+    let now = new Date().getTime();
+    if (now - last < wait) return;
+    last = now;
+    return func(...args);
+  };
+};
+
+const throttleFunc = myThrottle(() => {
+  debounce.innerHTML = ++debounce_val;
+}, 800);
