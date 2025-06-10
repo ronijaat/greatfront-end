@@ -1,0 +1,113 @@
+only for async
+
+function PromsiePollyfill(exceutor) {
+  let onResolve, OnReject;
+  this.resolve = function (val) {
+    onResolve(val);
+  };
+
+  this.reject = function (val) {
+    OnReject(val);
+  };
+
+  this.then = function (callback) {
+    onResolve = callback;
+    return this;
+  };
+  this.catch = function (callback) {
+    OnReject = callback;
+    return this;
+  };
+
+  exceutor(this.resolve, this.reject);
+}
+
+const promsie = new PromsiePollyfill((resolve, reject) => {
+  setTimeout(() => {
+    resolve(5);
+    // reject(2);
+  }, 1000);
+});
+
+promsie
+  .then((res) => {
+    console.log('resolve', res);
+  })
+  .catch((err) => {
+    console.log('reject', err);
+  });
+----------------------------------------------------------
+for both sync and async 
+function PromisePolyfill(executor) {
+  let onResolve, onReject;
+  let isFulfilled = false,
+    isRejected = false;
+  let value;
+
+  this.resolve = function (val) {
+    isFulfilled = true;
+    value = val;
+    if (typeof onResolve === 'function') {
+      onResolve(value);
+    }
+  };
+
+  this.reject = function (val) {
+    isRejected = true;
+    value = val;
+    if (typeof onReject === 'function') {
+      onReject(value);
+    }
+  };
+
+  this.then = function (callback) {
+    onResolve = callback;
+    if (isFulfilled) {
+      onResolve(value);
+    }
+    return this;
+  };
+
+  this.catch = function (callback) {
+    onReject = callback;
+    if (isRejected) {
+      onReject(value);
+    }
+    return this;
+  };
+
+  try {
+    executor(this.resolve, this.reject);
+  } catch (err) {
+    this.reject(err);
+  }
+}
+
+const promsie = new PromisePolyfill((resolve, reject) => {
+  setTimeout(() => {
+    // resolve(5);
+    reject(2);
+  }, 1000);
+});
+
+promsie
+  .then((res) => {
+    console.log('resolve', res);
+  })
+  .catch((err) => {
+    console.log('reject', err);
+  });
+
+-----------------------------------------------------------
+PromisePolyfill.resolve = (val) => {
+  return new PromisePolyfill((resolve, reject) => {
+    resolve(val);
+  });
+};
+
+PromisePolyfill.reject = (val) => {
+  return new PromisePolyfill((resolve, reject) => {
+    reject(val);
+  });
+};
+-------------------------------------------------------------------------------
