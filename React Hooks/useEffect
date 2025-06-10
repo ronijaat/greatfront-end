@@ -1,0 +1,21 @@
+import { useRef } from 'react';
+
+export function useCustomEffect(callback, deps) {
+  const isFirstRender = useRef(true);
+  const prevDeps = useRef([]);
+
+  if (isFirstRender.current) {
+    // First render: run the callback and mark as not first render
+    const cleanup = callback(); // run effect
+    isFirstRender.current = false;
+    if (typeof cleanup === 'function') cleanup(); // run cleanup immediately (for simulation)
+  } else if (
+    JSON.stringify(prevDeps.current) !== JSON.stringify(deps)
+  ) {
+    // Dependency change detected
+    const cleanup = callback();
+    if (typeof cleanup === 'function') cleanup(); // run cleanup
+  }
+
+  prevDeps.current = deps;
+}
