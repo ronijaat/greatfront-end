@@ -1,0 +1,27 @@
+import { useEffect, useRef } from 'react';
+
+const isEqual = (prev, curr) => {
+  if (!prev || prev.length !== curr.length) return false;
+  for (let i = 0; i < curr.length; i++) {
+    if (prev[i] !== curr[i]) return false;
+  }
+  return true;
+};
+
+export const useMemoCustom = (cb, deps) => {
+  const cache = useRef({ value: null, deps: null });
+
+  if (!isEqual(cache.current.deps, deps)) {
+    cache.current.value = cb();
+    cache.current.deps = deps;
+  }
+
+  // optional cleanup
+  useEffect(() => {
+    return () => {
+      cache.current = { value: null, deps: null };
+    };
+  }, []);
+
+  return cache.current.value;
+};
